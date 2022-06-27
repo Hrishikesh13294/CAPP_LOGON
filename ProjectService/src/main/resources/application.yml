@@ -3,9 +3,7 @@ spring:
     console:
       enabled: true
   datasource:
-    dbcp2:
       url: jdbc:h2:mem:database
-      
-    username: root
-    password: 
+      username: root
+      password: 
     
