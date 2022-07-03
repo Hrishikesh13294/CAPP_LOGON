@@ -25,9 +25,9 @@ public class EmployeeController {
 	private EmployeeRepository employeeRepository;
 
 	@RequestMapping(value = "/addOrUpdate", method = { RequestMethod.POST, RequestMethod.PUT })
-	public String addEmployee(@RequestBody Employee employee) {
+	public ResponseEntity<Employee> addEmployee(@RequestBody Employee employee) {
 		employeeRepository.save(employee);
-		return "added successfully";
+		return new ResponseEntity<Employee>(employee,HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/{id}", method = { RequestMethod.GET, RequestMethod.HEAD, RequestMethod.PATCH })
