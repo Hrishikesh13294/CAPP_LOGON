@@ -7,7 +7,7 @@ spring:
       username: root
       password: 
   application:
-    name: Project_service
+    name: project-service
       
 server:
   port: 9004
