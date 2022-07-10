@@ -49,7 +49,7 @@ public class EmployeeController {
 		}
 	}
 	
-	@PostMapping("/add")
+	@PostMapping("/")
 	public ResponseEntity<Employee> addEmployee(@RequestBody Employee employee){
 		
 		try {

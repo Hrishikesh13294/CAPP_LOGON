@@ -6,11 +6,13 @@ import javax.crypto.Cipher;
 
 import org.bouncycastle.util.encoders.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException.NotFound;
 
 import com.employee.info.dao.EmployeeDao;
 import com.employee.info.entity.Employee;
+import com.employee.info.entity.PasswordEncryptDecrypt;
 
 @Service
 public class EmployeeService {
@@ -36,8 +38,18 @@ public class EmployeeService {
 
 	}
 
-	public Employee addEmployee(Employee employee) {
-		return employeeDao.save(employee);
+	public Employee addEmployee(Employee employee) throws Exception {
+		
+		Employee emp = new Employee();
+		emp.setId(employee.getId());
+		emp.setName(employee.getName());
+		emp.setTokenNo(employee.getTokenNo());
+		emp.setUsername(employee.getUsername());
+		emp.setDepartment(employee.getDepartment());
+		emp.setPassword(PasswordEncryptDecrypt.encrypt(employee.getPassword()));
+		emp.setEmail(employee.getEmail());
+		
+		return employeeDao.save(emp);
 	}
 
 	
