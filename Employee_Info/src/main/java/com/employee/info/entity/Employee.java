@@ -26,7 +26,7 @@ import lombok.ToString;
 @Setter
 @ToString
 @Entity
-@Table(name = "Employee_Info", uniqueConstraints = @UniqueConstraint(columnNames = {"email"}))
+@Table(name = "employee", uniqueConstraints = @UniqueConstraint(columnNames = {"email"}))
 @Transactional
 public class Employee {
 	@Id

@@ -11,3 +11,5 @@ eureka:
     
   instance:
     hostname: localhost
+    
+

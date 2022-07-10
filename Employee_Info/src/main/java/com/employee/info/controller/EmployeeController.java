@@ -50,10 +50,6 @@ public class EmployeeController {
 			return new ResponseEntity<>(employeeRepository.findById(id).orElse(null), HttpStatus.OK);
 	}
 	
-	@RequestMapping("/test")
-	public String test() {
-		return "This is test microservice";
-	}
 	
 	
 	
