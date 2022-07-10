@@ -1,58 +1,71 @@
 package com.employee.info.controller;
 
-import java.lang.reflect.Field;
-import java.util.Map;
-import java.util.Optional;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.util.ReflectionUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.employee.info.entity.Employee;
-import com.employee.info.service.EmployeeRepository;
+import com.employee.info.entity.PasswordEncryptDecrypt;
+import com.employee.info.service.EmployeeService;
 
 @RestController
 @RequestMapping("/employee")
 public class EmployeeController {
 
 	@Autowired
-	private EmployeeRepository employeeRepository;
-
-	@RequestMapping(value = "/addOrUpdate", method = { RequestMethod.POST, RequestMethod.PUT })
-	public ResponseEntity<Employee> addEmployee(@RequestBody Employee employee) {
-		employeeRepository.save(employee);
-		return new ResponseEntity<Employee>(employee,HttpStatus.OK);
-	}
-
-	@RequestMapping(value = "/{id}", method = { RequestMethod.GET, RequestMethod.HEAD, RequestMethod.PATCH })
-	public ResponseEntity<Employee> getEmployee(@PathVariable("id") int id, @RequestBody Map<Object, Object> field) {
-
-		Optional<Employee> emp = employeeRepository.findById(id);
-		if (emp.isPresent() && RequestMethod.PATCH != null) {
-
-			field.forEach((key, Value) -> {
-				Field findRequiredField = ReflectionUtils.findRequiredField(Employee.class, (String) key);
-				findRequiredField.setAccessible(true);
-				ReflectionUtils.setField(findRequiredField, emp.get(), Value);
-
-			});
-			Employee saveAndFlush = employeeRepository.saveAndFlush(emp.get());
-			return new ResponseEntity<>(saveAndFlush, HttpStatus.OK);
-
-		} else
-
-			return new ResponseEntity<>(employeeRepository.findById(id).orElse(null), HttpStatus.OK);
+	private EmployeeService employeeService;
+	
+	@GetMapping("/")
+	public ResponseEntity<List<Employee>> getAllEmployees(){
+		try {
+			return new ResponseEntity<List<Employee>>(employeeService.getAllEmployee(), HttpStatus.OK);
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+		
 	}
 	
+	@GetMapping("/{id}")
+	public ResponseEntity<Employee> getEmployee(@PathVariable int  id) {
+		try {
+			
+			return new ResponseEntity<Employee>(employeeService.getEmployee(id), HttpStatus.OK);
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
 	
+	@PostMapping("/add")
+	public ResponseEntity<Employee> addEmployee(@RequestBody Employee employee){
+		
+		try {
+			return new ResponseEntity<Employee>(employeeService.addEmployee(employee), HttpStatus.CREATED);
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+		}
+		
+		
+		
+	}
 	
 	
 	
 
 }
+	

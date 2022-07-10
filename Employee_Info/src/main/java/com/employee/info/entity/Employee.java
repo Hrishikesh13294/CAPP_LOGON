@@ -9,9 +9,7 @@ import javax.persistence.UniqueConstraint;
 import javax.transaction.Transactional;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Pattern.Flag;
-import javax.websocket.OnError;
 
-import ch.qos.logback.classic.db.names.ColumnName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -21,14 +19,14 @@ import lombok.ToString;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
 @ToString
 @Entity
-@Table(name = "employee", uniqueConstraints = @UniqueConstraint(columnNames = {"email"}))
+@Table(name = "employee", uniqueConstraints = @UniqueConstraint(columnNames = { "email" }))
 @Transactional
 public class Employee {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
@@ -39,5 +37,19 @@ public class Employee {
 	private String department;
 	private String username;
 	private String password;
+	public Employee(int id, long tokenNo, String name,
+			@Email(regexp = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}", flags = Flag.CASE_INSENSITIVE) String email,
+			String department, String username, String password) throws Exception {
+		super();
+		this.id = id;
+		this.tokenNo = tokenNo;
+		this.name = name;
+		this.email = email;
+		this.department = department;
+		this.username = username;
+		this.password = PasswordEncryptDecrypt.encrypt(password);
+	}
+	
+	
 
 }
