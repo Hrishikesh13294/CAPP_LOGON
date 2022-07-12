@@ -51,6 +51,10 @@ public class EmployeeService {
 		
 		return employeeDao.save(emp);
 	}
+	
+	public void deleteEmployee(int id) {
+		employeeDao.deleteById(id);
+	}
 
 	
 }

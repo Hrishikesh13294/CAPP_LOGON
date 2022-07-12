@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.employee.info.entity.Employee;
-import com.employee.info.entity.EmployeePublic;
 import com.employee.info.service.EmployeeService;
 
 @RestController
@@ -25,12 +25,18 @@ public class EmployeeController {
 	private EmployeeService employeeService;
 
 	@GetMapping("/")
-	public ResponseEntity<List<EmployeePublic>> getAllEmployees() {
-		List<EmployeePublic> lstOfEmployeePublics = employeeService.getAllEmployee().stream()
-				.map(t -> new EmployeePublic(t.getId(), t.getTokenNo(), t.getName(), t.getEmail(), t.getDepartment()))
-				.collect(Collectors.toList());
+	public ResponseEntity<List<Employee>> getAllEmployees() {
+		List<Employee> lstOfEmployeePublics = employeeService.getAllEmployee().stream().map(t -> {
+			try {
+				return t.publicEmployee();
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			return t;
+		}).collect(Collectors.toList());
 		try {
-			return new ResponseEntity<List<EmployeePublic>>(lstOfEmployeePublics, HttpStatus.OK);
+			return new ResponseEntity<List<Employee>>(lstOfEmployeePublics, HttpStatus.OK);
 
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -40,11 +46,10 @@ public class EmployeeController {
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<EmployeePublic> getEmployee(@PathVariable int id) {
+	public ResponseEntity<Employee> getEmployee(@PathVariable int id) {
 		try {
-			Employee employee = employeeService.getEmployee(id);
-			return new ResponseEntity<EmployeePublic>(new EmployeePublic(employee.getId(), employee.getTokenNo(),
-					employee.getName(), employee.getEmail(), employee.getDepartment()), HttpStatus.OK);
+			Employee publicEmployee = employeeService.getEmployee(id).publicEmployee();
+			return new ResponseEntity<Employee>(publicEmployee, HttpStatus.OK);
 
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -54,18 +59,30 @@ public class EmployeeController {
 	}
 
 	@PostMapping("/")
-	public ResponseEntity<EmployeePublic> addEmployee(@RequestBody Employee employee) {
+	public ResponseEntity<Employee> addEmployee(@RequestBody Employee employee) {
 
 		try {
-			employeeService.addEmployee(employee);
-			return new ResponseEntity<EmployeePublic>(new EmployeePublic(employee.getId(), employee.getTokenNo(),
-					employee.getName(), employee.getEmail(), employee.getDepartment()), HttpStatus.CREATED);
+			Employee addEmployee = employeeService.addEmployee(employee);
+			return new ResponseEntity<Employee>(addEmployee.publicEmployee(), HttpStatus.CREATED);
 
 		} catch (Exception e) {
 			// TODO: handle exception
 			return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
 		}
 
+	}
+	
+	@DeleteMapping("/{id}")
+	public ResponseEntity<HttpStatus> deleteEmployee(@PathVariable int id){
+		try {
+			
+			employeeService.deleteEmployee(id);
+			return new ResponseEntity<>(HttpStatus.OK);
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+		}
 	}
 
 }
