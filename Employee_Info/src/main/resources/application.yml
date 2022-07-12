@@ -6,6 +6,9 @@ spring:
     url: jdbc:mysql://localhost:3306/microservicedatabase
     username: root
     password: 123456
+  mvc:
+      pathmatch:
+            matching-strategy: ant_path_matcher
     
   jpa:
     hibernate:
@@ -21,6 +24,8 @@ spring:
     hostname: localhost
 server:
   port: 9001
+  
+    
 
 
   
