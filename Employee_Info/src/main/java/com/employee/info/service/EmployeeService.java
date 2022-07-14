@@ -37,6 +37,19 @@ public class EmployeeService {
 		}
 
 	}
+	
+	
+	public Employee getEmployeeByTokenNo(long tokenNo) {
+		try {
+			return employeeDao.findByTokenNo(tokenNo);
+
+		} catch (NotFound e) {
+			// TODO: handle exception
+			return null;
+
+		}
+
+	}
 
 	public Employee addEmployee(Employee employee) throws Exception {
 		

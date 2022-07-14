@@ -62,6 +62,19 @@ public class EmployeeController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
+	
+	@GetMapping("/token/{tokenNo}")
+	public ResponseEntity<Employee> getEmployeeByTokenNo(@PathVariable long tokenNo) {
+		try {
+			Employee publicEmployee = employeeService.getEmployeeByTokenNo(tokenNo);//.publicEmployee();
+			return new ResponseEntity<Employee>(publicEmployee, HttpStatus.OK);
+
+		} catch (Exception e) {
+			// TODO: handle exception
+
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
 
 	@PostMapping("/")
 	public ResponseEntity<Employee> addEmployee(@RequestBody Employee employee) {

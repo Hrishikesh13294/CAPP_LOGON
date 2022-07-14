@@ -7,6 +7,8 @@ import com.employee.info.entity.Employee;
 
 @Repository
 public interface EmployeeDao extends JpaRepository<Employee, Integer>{
+
+	public Employee findByTokenNo(long tokenNo);
 	
 	
 	

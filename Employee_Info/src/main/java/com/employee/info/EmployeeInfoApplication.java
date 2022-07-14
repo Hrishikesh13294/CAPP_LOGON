@@ -25,8 +25,12 @@ public class EmployeeInfoApplication {
 	
 	@PostConstruct
 	public void dummyEmpl() throws Exception {
-		Employee emp = new Employee(1, 10102, "Hrishikesh Kulkarni", "kulkarni_hrishikesh@yahoo.com", "CDRG", "vf191", "test");
-		employeeService.addEmployee(emp);
+//		long tokenNo=10102;
+//		if(employeeService.getEmployeeByTokenNo(tokenNo).getTokenNo()==10102){
+//			Employee emp = new Employee(1, 10102, "Hrishikesh Kulkarni", "kulkarni_hrishikesh@yahoo.com", "CDRG", "vf191", "test");
+//			employeeService.addEmployee(emp);
+//		}
+		
 	}
 	
 	
