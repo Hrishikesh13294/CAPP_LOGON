@@ -1,13 +1,18 @@
 package com.employee.info.controller;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
+import org.springframework.data.util.ReflectionUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -71,18 +76,46 @@ public class EmployeeController {
 		}
 
 	}
-	
+
 	@DeleteMapping("/{id}")
-	public ResponseEntity<HttpStatus> deleteEmployee(@PathVariable int id){
+	public ResponseEntity<HttpStatus> deleteEmployee(@PathVariable int id) {
 		try {
-			
+
 			employeeService.deleteEmployee(id);
 			return new ResponseEntity<>(HttpStatus.OK);
-			
+
 		} catch (Exception e) {
 			// TODO: handle exception
 			return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
 		}
+	}
+
+	@PatchMapping("/{id}")
+	public ResponseEntity<Employee> updateEmployee(@PathVariable int id, @RequestBody Map<Object, Object> properties) throws NotFoundException{
+		
+		Optional<Employee> employee = Optional.of(employeeService.getEmployee(id));
+		
+		if(employee.isPresent()) {
+			properties.forEach((key,Value)->{
+			java.lang.reflect.Field reqField = org.springframework.data.util.ReflectionUtils.findRequiredField(Employee.class, (String)key);
+			reqField.setAccessible(true);
+			ReflectionUtils.setField(reqField, employee.get(), Value);
+					
+			}
+					);
+			return new ResponseEntity<>(employeeService.saveAndFlush(employee.get()), HttpStatus.OK);
+			
+			
+			
+		}
+		
+		else {
+			throw new  NotFoundException();
+		}
+		
+		
+		
+		
 	}
 
 }

@@ -55,6 +55,10 @@ public class EmployeeService {
 	public void deleteEmployee(int id) {
 		employeeDao.deleteById(id);
 	}
+	
+	public Employee saveAndFlush(Employee emp) {
+		return employeeDao.saveAndFlush(emp);
+	}
 
 	
 }
