@@ -1,30 +1,8 @@
-
-
 spring:
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/microservicedatabase
-    username: root
-    password: 123456
-  mvc:
-      pathmatch:
-            matching-strategy: ant_path_matcher
-    
-  jpa:
-    hibernate:
-      ddl-auto: update
-    generate-ddl: true
-    database-platform: org.hibernate.dialect.MySQL55Dialect
-    
-  application:
-    name: EMPLOYEE-SERVICE
-    
+  profiles:
+    active:
+    - dev
 
-  instance:
-    hostname: localhost
-server:
-  port: 9001
-  
     
 
 

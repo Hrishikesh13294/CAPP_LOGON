@@ -1,12 +1,7 @@
 package com.employee.info.service;
 
-import java.security.Key;
-
-import javax.crypto.Cipher;
-
-import org.bouncycastle.util.encoders.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException.NotFound;
 
@@ -15,6 +10,7 @@ import com.employee.info.entity.Employee;
 import com.employee.info.entity.PasswordEncryptDecrypt;
 
 @Service
+@Component
 public class EmployeeService {
 
 	
