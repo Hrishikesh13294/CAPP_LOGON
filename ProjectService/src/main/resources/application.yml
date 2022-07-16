@@ -1,19 +1,8 @@
 spring:
-  h2:
-    console:
-      enabled: true
-  datasource:
-      url: jdbc:h2:mem:database
-      username: root
-      password: 
-  application:
-    name: project-service
-      
-server:
-  port: 9004
-  
-eureka:
-  instance:
-    hostname: localhost
+  profiles:
+    active:
+    - dev
+    
+    
   
     
