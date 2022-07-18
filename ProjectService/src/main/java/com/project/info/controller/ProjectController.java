@@ -1,31 +1,12 @@
 package com.project.info.controller;
 
-import java.lang.reflect.Field;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.Optional;
-
-import org.apache.http.HttpRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.util.ReflectionUtils;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestAttribute;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
-import com.project.info.entity.Employee;
-import com.project.info.entity.Project;
 import com.project.info.service.ProjectRepo;
-
-import net.bytebuddy.utility.privilege.GetMethodAction;
 
 @RestController
 @RequestMapping("/project")
@@ -41,7 +22,7 @@ public class ProjectController {
 	@GetMapping("/")
 	public String getDAEName(){
 		
-		Employee obj = restTemplate.getForObject("http://EMPLOYEE-SERVICE/employee/1", Employee.class);
+		com.employee.info.entity.Employee obj = restTemplate.getForObject("http://EMPLOYEE-SERVICE/employee/1", com.employee.info.entity.Employee.class);
 		
 		return "the employee name is "+obj.getName();
 	}
