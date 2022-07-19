@@ -10,13 +10,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestTemplate;
 
 import com.project.info.entity.Project;
-import com.project.info.service.ProjectRepo;
+import com.project.info.service.ProjectDao;
 
 @SpringBootApplication
 public class ProjectServiceApplication1 {
 	
 	@Autowired
-	public ProjectRepo projectRepo;
+	public ProjectDao projectRepo;
 
 	public static void main(String[] args) {
 		SpringApplication.run(ProjectServiceApplication1.class, args);

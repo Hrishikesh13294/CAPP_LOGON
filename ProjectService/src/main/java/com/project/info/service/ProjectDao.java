@@ -6,6 +6,6 @@ import org.springframework.stereotype.Service;
 
 import com.project.info.entity.Project;
 @Repository
-public interface ProjectRepo extends JpaRepository<Project, Integer>{
+public interface ProjectDao extends JpaRepository<Project, Integer>{
 
 }

@@ -1,95 +1,90 @@
 package com.project.info.controller;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
 
-import com.project.info.service.ProjectRepo;
+import com.project.info.entity.Project;
+import com.project.info.service.ProjectService;
 
 @RestController
 @RequestMapping("/project")
 public class ProjectController {
 
 	@Autowired
-	private ProjectRepo projectRepo;
-	
-	@Autowired
-	private RestTemplate restTemplate;
-	
-	
-	@GetMapping("/")
-	public String getDAEName(){
-		
-		com.employee.info.entity.Employee obj = restTemplate.getForObject("http://EMPLOYEE-SERVICE/employee/1", com.employee.info.entity.Employee.class);
-		
-		return "the employee name is "+obj.getName();
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	private ProjectService projectService;
 
-//	@RequestMapping(value = "/addOrUpdate", method = { RequestMethod.POST, RequestMethod.PUT })
-//	public ResponseEntity<Project> addProject(@RequestBody Project project) {
-//		Project proj = projectRepo.saveAndFlush(project);
-//		return new ResponseEntity<Project>(proj, HttpStatus.OK);
-//
-//	}
-//
-//	@RequestMapping(value = "/{id}", method = { RequestMethod.GET, RequestMethod.HEAD, RequestMethod.PATCH })
-//	public ResponseEntity<Project> getProject(@PathVariable int id, @RequestBody(required = false) Map<Object, Object> field) {
-//
-//		Optional<Project> projct = projectRepo.findById(id);
-//
-//		if (projct.isPresent() && RequestMethod.PATCH==null) {
-//
-//			field.forEach((key, value) -> {
-//				Field findRequiredField = ReflectionUtils.findRequiredField(Project.class, (String) key);
-//				findRequiredField.setAccessible(true);
-//				ReflectionUtils.setField(findRequiredField, projct.get(), value);
-//
-//			});
-//
-//			Project saveAndFlush = projectRepo.saveAndFlush(projct.get());
-//
-//			return new ResponseEntity<Project>(saveAndFlush,HttpStatus.OK);
-//
-//		} else {
-//			return new ResponseEntity<Project>(projectRepo.findById(id).get(), HttpStatus.OK);
-//		}
-//
-//	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	@GetMapping("/")
+	public List<String> getAllProjectsNames() {
+
+		return projectService.getAllProjectsNames();
+
+	}
+
+	@GetMapping("/projects")
+	public ResponseEntity<List<Project>> getAllProjects() {
+
+		return projectService.getAllProjects();
+
+	}
+
+	@GetMapping("/{id}")
+	public ResponseEntity<Project> getProject(@PathVariable int id) {
+
+		return projectService.getProject(id);
+
+	}
+
+	@PostMapping("/")
+	public ResponseEntity<Project> addProject(@org.springframework.web.bind.annotation.RequestBody Project project) {
+
+		return projectService.addProject(project);
+
+	}
+
+	@PatchMapping("/{id}")
+	public ResponseEntity<Project> updateProject(@PathVariable int id,
+			@org.springframework.web.bind.annotation.RequestBody Map<Object, Object> field) {
+
+		return projectService.updateProject(id, field);
+
+	}
+
+	@DeleteMapping("/{id}")
+	public ResponseEntity<HttpStatus> deleteById(@PathVariable int id) {
+
+		return projectService.deleteById(id);
+
+	}
+
+	@GetMapping("/projManager/{id}")
+	public ResponseEntity<String> getProjectManagerName(@PathVariable int id) {
+
+		return projectService.getProjectManagerName(id);
+
+	}
+
+	@GetMapping("/dae/{id}")
+	public ResponseEntity<String> getDAEName(@PathVariable int id) {
+
+		return projectService.getProjectManagerName(id);
+
+	}
+
+	@GetMapping("/w/{id}")
+	public ResponseEntity<String> getRespWName(@PathVariable int id) {
+
+		return projectService.getRespWName(id);
+	}
 
 }
