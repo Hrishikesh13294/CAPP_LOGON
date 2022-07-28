@@ -19,7 +19,7 @@ public class PrametersController {
 	private JDBCTemplateService jdbcTemplateService;
 	
 	
-	@PostMapping(value = "/{name}", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces  = {MediaType.APPLICATION_JSON_VALUE})
+	@PostMapping(value = "/{name}")
 	public ResponseEntity<HttpStatus>createTable(@PathVariable String name
 			,@RequestBody ParametersPojo params){
 			jdbcTemplateService.CreateTable(name, params);
